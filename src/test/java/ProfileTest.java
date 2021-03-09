@@ -1,11 +1,12 @@
 import com.github.javafaker.Faker;
+import config.BaseTest;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class ProfileTest {
+public class ProfileTest extends BaseTest {
     Faker faker = new Faker();
 
     String fullName = faker.name().fullName(),
