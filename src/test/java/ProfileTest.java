@@ -20,7 +20,8 @@ public class ProfileTest extends BaseTest {
         PageHelper.openPersonalData();
         $("#profile_name").setValue("");
         $x("//button[contains(text(),'Сохранить')]").click();
-        $("#flashMessage-message").shouldHave(text("Ошибка обновления личных данных"));
+        $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления личных данных"));
+        $x("//div[@class='errors']//ul").shouldHave(text("Значение не должно быть пустым"));
     }
 
     @Test
