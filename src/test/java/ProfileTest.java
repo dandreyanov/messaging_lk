@@ -13,8 +13,8 @@ public class ProfileTest extends BaseTest {
     String fullName = faker.name().fullName(),
             companyName = faker.company().name(),
             phoneNumber = faker.phoneNumber().subscriberNumber(11),
-            password = faker.internet().password(1,20),
-            newPassword = faker.internet().password(1,20);
+            password = faker.internet().password(5,20),
+            newPassword = faker.internet().password(5,20);
     Integer index = faker.number().numberBetween(1, 24);
 
     @Test
