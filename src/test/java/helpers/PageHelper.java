@@ -7,4 +7,8 @@ public class PageHelper {
         $x("//span[contains(text(),'Профиль')]").click();
         $x("//a[contains(text(),'Личные данные')]").click();
     }
+
+    public static void clickSave() {
+        $x("//button[contains(text(),'Сохранить')]").click();
+    }
 }
