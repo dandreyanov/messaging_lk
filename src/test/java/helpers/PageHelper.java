@@ -20,4 +20,9 @@ public class PageHelper {
     public static void setProfileData(String s, String userData) {
         $(s).setValue(userData);
     }
+
+    public static void setProfileTimeZone(Integer timeZone) {
+        $("#profile_timeZone").selectOption(timeZone);
+    }
+
 }

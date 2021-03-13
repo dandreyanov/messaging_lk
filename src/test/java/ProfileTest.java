@@ -15,7 +15,7 @@ public class ProfileTest extends BaseTest {
             phoneNumber = faker.phoneNumber().subscriberNumber(11),
             password = faker.internet().password(5,20),
             newPassword = faker.internet().password(5,20);
-    Integer index = faker.number().numberBetween(1, 24);
+    Integer timeZone = faker.number().numberBetween(1, 24);
 
     @Test
     @DisplayName("Successful save form")
@@ -26,10 +26,12 @@ public class ProfileTest extends BaseTest {
         setProfileData("#profile_name", fullName);
         setProfileData("#profile_company", companyName);
         setProfileData("#profile_phone", phoneNumber);
-        $("#profile_timeZone").selectOption(index);
+        setProfileTimeZone(timeZone);
         clickSave();
         $x("//div[contains(text(),'Личные данные обновлены')]").shouldHave(visible);
     }
+
+
 
     @Test
     @DisplayName("Save form without fullname")
