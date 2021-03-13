@@ -1,6 +1,5 @@
 import com.github.javafaker.Faker;
 import config.BaseTest;
-import helpers.PageHelper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +23,9 @@ public class ProfileTest extends BaseTest {
         Authorization.successfulAuth();
         openPersonalData();
         //set random personal data
-        $("#profile_name").setValue(fullName);
-        $("#profile_company").setValue(companyName);
-        $("#profile_phone").setValue(phoneNumber);
+        setProfileData("#profile_name", fullName);
+        setProfileData("#profile_company", companyName);
+        setProfileData("#profile_phone", phoneNumber);
         $("#profile_timeZone").selectOption(index);
         clickSave();
         $x("//div[contains(text(),'Личные данные обновлены')]").shouldHave(visible);
@@ -37,7 +36,7 @@ public class ProfileTest extends BaseTest {
     public void saveWithoutFullname() {
         Authorization.successfulAuth();
         openPersonalData();
-        $("#profile_name").setValue("");
+        setProfileData("#profile_name", "");
         clickSave();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления личных данных"));
         $x("//div[@class='errors']//ul").shouldHave(text("Значение не должно быть пустым"));
@@ -48,7 +47,7 @@ public class ProfileTest extends BaseTest {
     public void saveWithoutPhone() {
         Authorization.successfulAuth();
         openPersonalData();
-        $("#profile_phone").setValue("");
+        setProfileData("#profile_phone", "");
         clickSave();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления личных данных"));
         $x("//div[@class='errors']//ul").shouldHave(text("Значение не должно быть пустым"));
@@ -59,8 +58,8 @@ public class ProfileTest extends BaseTest {
     public void saveWithoutPassConfirm() {
         Authorization.successfulAuth();
         openPersonalData();
-        $("#user_password_password").setValue(password);
-        $("#user_password_newPasswordAgain").setValue("");
+        setProfileData("#user_password_password", password);
+        setProfileData("#user_password_newPasswordAgain", "");
         clickChange();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления пароля"));
     }
@@ -70,8 +69,8 @@ public class ProfileTest extends BaseTest {
     public void saveWithAnotherPassConfirm() {
         Authorization.successfulAuth();
         openPersonalData();
-        $("#user_password_password").setValue(password);
-        $("#user_password_newPasswordAgain").setValue(newPassword);
+        setProfileData("#user_password_password", password);
+        setProfileData("#user_password_newPasswordAgain", newPassword);
         clickChange();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Пароли не совпадают, повторите ввод"));
     }

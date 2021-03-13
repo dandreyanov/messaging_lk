@@ -1,5 +1,6 @@
 package helpers;
 
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class PageHelper {
@@ -14,5 +15,9 @@ public class PageHelper {
 
     public static void clickChange() {
         $x("//button[contains(text(),'Изменить')]").click();
+    }
+
+    public static void setProfileData(String s, String userData) {
+        $(s).setValue(userData);
     }
 }
