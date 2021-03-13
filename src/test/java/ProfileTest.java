@@ -1,10 +1,10 @@
 import com.github.javafaker.Faker;
 import config.BaseTest;
+import helpers.PageHelper;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
 public class ProfileTest extends BaseTest {
     Faker faker = new Faker();
@@ -15,10 +15,18 @@ public class ProfileTest extends BaseTest {
     Integer index = faker.number().numberBetween(1, 24);
 
     @Test
+    public void saveWithoutFullname() {
+        Authorization.successfulAuth();
+        PageHelper.openPersonalData();
+        $("#profile_name").setValue("");
+        $x("//button[contains(text(),'Сохранить')]").click();
+        $("#flashMessage-message").shouldHave(text("Ошибка обновления личных данных"));
+    }
+
+    @Test
     public void openPersonalDataPage() {
         Authorization.successfulAuth();
-        $x("//span[contains(text(),'Профиль')]").click();
-        $x("//a[contains(text(),'Личные данные')]").click();
+        PageHelper.openPersonalData();
         //set random personal data
         $("#profile_name").setValue(fullName);
         $("#profile_company").setValue(companyName);
@@ -29,4 +37,5 @@ public class ProfileTest extends BaseTest {
 
         $x("//div[contains(text(),'Личные данные обновлены')]").shouldHave(visible);
     }
+
 }
