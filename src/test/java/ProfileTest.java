@@ -61,7 +61,7 @@ public class ProfileTest extends BaseTest {
         openPersonalData();
         $("#user_password_password").setValue(password);
         $("#user_password_newPasswordAgain").setValue("");
-        clickSave();
+        clickChange();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления пароля"));
     }
 
@@ -72,7 +72,7 @@ public class ProfileTest extends BaseTest {
         openPersonalData();
         $("#user_password_password").setValue(password);
         $("#user_password_newPasswordAgain").setValue(newPassword);
-        clickSave();
+        clickChange();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Отсутствует обязательное поле/Неверный формат запроса"));
     }
 

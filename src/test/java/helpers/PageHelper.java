@@ -11,4 +11,8 @@ public class PageHelper {
     public static void clickSave() {
         $x("//button[contains(text(),'Сохранить')]").click();
     }
+
+    public static void clickChange() {
+        $x("//button[contains(text(),'Изменить')]").click();
+    }
 }
