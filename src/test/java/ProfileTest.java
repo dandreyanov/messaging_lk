@@ -73,7 +73,7 @@ public class ProfileTest extends BaseTest {
         $("#user_password_password").setValue(password);
         $("#user_password_newPasswordAgain").setValue(newPassword);
         clickChange();
-        $x("//div[@class='flashMessage-message']").shouldHave(text("Отсутствует обязательное поле/Неверный формат запроса"));
+        $x("//div[@class='flashMessage-message']").shouldHave(text("Пароли не совпадают, повторите ввод"));
     }
 
 }
