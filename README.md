@@ -8,7 +8,7 @@
 - [X] - Попытка сохранить данные без заполненного поля подтверждение пароля
 
 ## Добавлено видео о прохождении тестов
-![Video](rc/test/resources/files/Video.gif)
+![Video](src/test/resources/files/Video.gif)
 
 ## Добавлен отчёт Allure
 ![Allure](src/test/resources/files/Allure.png)
