@@ -42,8 +42,8 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Test) {
     systemProperties += System.properties
-    systemProperty("junit.jupiter.extensions.autodetection.enabled", "true")
-    systemProperty("chromeoptions.prefs", "intl.accept_languages=en")
+    System.setProperty("chromeoptions.prefs", "intl.accept_languages=en")
+    System.setProperty("junit.jupiter.extensions.autodetection.enabled", "true")
 
     if (System.getProperty("threads") != null) {
         systemProperties += [
