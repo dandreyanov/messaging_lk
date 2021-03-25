@@ -1,5 +1,6 @@
 import com.github.javafaker.Faker;
 import config.BaseTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +14,19 @@ public class ProfileTest extends BaseTest {
     String fullName = faker.name().fullName(),
             companyName = faker.company().name(),
             phoneNumber = faker.phoneNumber().subscriberNumber(11),
-            password = faker.internet().password(5,20),
-            newPassword = faker.internet().password(5,20);
+            password = faker.internet().password(5, 20),
+            newPassword = faker.internet().password(5, 20);
     Integer timeZone = faker.number().numberBetween(1, 24);
+
+    @BeforeEach
+    public void beforeFunction() {
+        Authorization.successfulAuth();
+        open("/my/user/profile/profile");
+    }
 
     @Test
     @DisplayName("Successful save form")
     public void openPersonalDataPage() {
-        Authorization.successfulAuth();
-        openPersonalData();
-        //set random personal data
         setProfileData("#profile_name", fullName);
         setProfileData("#profile_company", companyName);
         setProfileData("#profile_phone", phoneNumber);
@@ -32,12 +36,9 @@ public class ProfileTest extends BaseTest {
     }
 
 
-
     @Test
     @DisplayName("Save form without fullname")
     public void saveWithoutFullname() {
-        Authorization.successfulAuth();
-        openPersonalData();
         setProfileData("#profile_name", "");
         clickSave();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления личных данных"));
@@ -47,8 +48,6 @@ public class ProfileTest extends BaseTest {
     @Test
     @DisplayName("Save form without phone")
     public void saveWithoutPhone() {
-        Authorization.successfulAuth();
-        openPersonalData();
         setProfileData("#profile_phone", "");
         clickSave();
         $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления личных данных"));
@@ -58,8 +57,6 @@ public class ProfileTest extends BaseTest {
     @Test
     @DisplayName("Save form without password confirmation")
     public void saveWithoutPassConfirm() {
-        Authorization.successfulAuth();
-        openPersonalData();
         setProfileData("#user_password_password", password);
         setProfileData("#user_password_newPasswordAgain", "");
         clickChange();
@@ -69,8 +66,6 @@ public class ProfileTest extends BaseTest {
     @Test
     @DisplayName("Save form with another password confirmation")
     public void saveWithAnotherPassConfirm() {
-        Authorization.successfulAuth();
-        openPersonalData();
         setProfileData("#user_password_password", password);
         setProfileData("#user_password_newPasswordAgain", newPassword);
         clickChange();

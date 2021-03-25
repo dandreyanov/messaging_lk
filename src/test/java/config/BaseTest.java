@@ -2,6 +2,7 @@ package config;
 
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.selenide.AllureSelenide;
+import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,6 +28,9 @@ public class BaseTest {
 
         Configuration.browserCapabilities = capabilities;
         Configuration.startMaximized = true;
+
+        RestAssured.baseURI = "http://demo.wsoft.ru";
+        Configuration.baseUrl = "http://demo.wsoft.ru";
 
         if (System.getProperty("remote.browser.url") != null)
             Configuration.remote = config.webDriverUrl();
