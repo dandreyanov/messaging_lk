@@ -1,4 +1,5 @@
-import config.CredentialsConfig;
+package config;
+
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
@@ -11,7 +12,7 @@ import static io.restassured.RestAssured.given;
 
 public class Authorization extends config.BaseTest {
     @Test
-    public static void successfulAuth() {
+    public static void authWithAPI() {
         final CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class, System.getProperties());
         Map<String, String> cookiesMap =
                 given()
@@ -25,7 +26,6 @@ public class Authorization extends config.BaseTest {
                         .log().body()
                         .extract().cookies();
 
-        //open browser
         open("/bundles/app/images/logotype.png");
         getWebDriver().manage().addCookie(new Cookie("PHPSESSID", cookiesMap.get("PHPSESSID")));
         open("");

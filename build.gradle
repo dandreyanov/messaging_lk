@@ -9,7 +9,7 @@ repositories {
     mavenCentral()
 }
 
-def allureEEVersion = "3.28.2",
+def allureEEVersion = "3.39.4",
     allureVersion = "2.13.8",
     selenideVersion = "5.18.0",
     junitVersion = "5.7.0",

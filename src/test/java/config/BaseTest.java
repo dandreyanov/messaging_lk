@@ -18,6 +18,8 @@ public class BaseTest {
 
     @BeforeAll
     static void setup() {
+        RestAssured.baseURI = "http://demo.wsoft.ru";
+        Configuration.baseUrl = "http://demo.wsoft.ru";
         final EnvironmentConfig config = ConfigFactory.create(EnvironmentConfig.class, System.getProperties());
         addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
         Configuration.browser = config.browser();
@@ -28,9 +30,6 @@ public class BaseTest {
 
         Configuration.browserCapabilities = capabilities;
         Configuration.startMaximized = true;
-
-        RestAssured.baseURI = "http://demo.wsoft.ru";
-        Configuration.baseUrl = "http://demo.wsoft.ru";
 
         if (System.getProperty("remote.browser.url") != null)
             Configuration.remote = config.webDriverUrl();

@@ -1,4 +1,5 @@
 import com.github.javafaker.Faker;
+import config.Authorization;
 import config.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ public class ProfileTest extends BaseTest {
 
     @BeforeEach
     public void beforeFunction() {
-        Authorization.successfulAuth();
+        Authorization.authWithAPI();
         open("/my/user/profile/profile");
     }
 
@@ -32,7 +33,7 @@ public class ProfileTest extends BaseTest {
         setProfileData("#profile_phone", phoneNumber);
         setProfileTimeZone(timeZone);
         clickSave();
-        $x("//div[contains(text(),'Личные данные обновлены')]").shouldHave(visible);
+        $("div.flashMessage-message").shouldHave(text("Личные данные обновлены"));
     }
 
 
@@ -41,8 +42,8 @@ public class ProfileTest extends BaseTest {
     public void saveWithoutFullname() {
         setProfileData("#profile_name", "");
         clickSave();
-        $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления личных данных"));
-        $x("//div[@class='errors']//ul").shouldHave(text("Значение не должно быть пустым"));
+        $("div.flashMessage-message").shouldHave(text("Ошибка обновления личных данных"));
+        $("div.errors").shouldHave(text("Значение не должно быть пустым"));
     }
 
     @Test
@@ -50,8 +51,8 @@ public class ProfileTest extends BaseTest {
     public void saveWithoutPhone() {
         setProfileData("#profile_phone", "");
         clickSave();
-        $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления личных данных"));
-        $x("//div[@class='errors']//ul").shouldHave(text("Значение не должно быть пустым"));
+        $("div.flashMessage-message").shouldHave(text("Ошибка обновления личных данных"));
+        $("div.errors").shouldHave(text("Значение не должно быть пустым"));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class ProfileTest extends BaseTest {
         setProfileData("#user_password_password", password);
         setProfileData("#user_password_newPasswordAgain", "");
         clickChange();
-        $x("//div[@class='flashMessage-message']").shouldHave(text("Ошибка обновления пароля"));
+        $("div.flashMessage-message").shouldHave(text("Ошибка обновления пароля"));
     }
 
     @Test
@@ -69,7 +70,7 @@ public class ProfileTest extends BaseTest {
         setProfileData("#user_password_password", password);
         setProfileData("#user_password_newPasswordAgain", newPassword);
         clickChange();
-        $x("//div[@class='flashMessage-message']").shouldHave(text("Пароли не совпадают, повторите ввод"));
+        $("div.flashMessage-message").shouldHave(text("Пароли не совпадают, повторите ввод"));
     }
 
 }
