@@ -34,15 +34,17 @@ public class BaseTest {
         if (System.getProperty("remote.browser.url") != null)
             Configuration.remote = config.webDriverUrl();
 
+        Authorization.authWithAPI();
+
     }
 
     @AfterEach
     public void afterEach() {
-        attachScreenshot("Last screenshot");
-        attachPageSource();
-        attachAsText("Browser console logs", getConsoleLogs());
-        if (System.getProperty("video_storage") != null)
-            attachVideo();
+//        attachScreenshot("Last screenshot");
+//        attachPageSource();
+//        attachAsText("Browser console logs", getConsoleLogs());
+//        if (System.getProperty("video_storage") != null)
+//            attachVideo();
         closeWebDriver();
     }
 }
