@@ -9,6 +9,7 @@ import java.util.Map;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.restassured.RestAssured.given;
+import static templates.ReportTemplate.filters;
 
 public class Authorization extends config.BaseTest {
     @Test
@@ -16,6 +17,7 @@ public class Authorization extends config.BaseTest {
         final CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class, System.getProperties());
         Map<String, String> cookiesMap =
                 given()
+                        .filter(filters().customTemplates())
                         .contentType("application/x-www-form-urlencoded")
                         .formParam("_username", config.username())
                         .formParam("_password", config.password())

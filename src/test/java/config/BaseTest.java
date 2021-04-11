@@ -1,12 +1,15 @@
 package config;
 
 import com.codeborne.selenide.Configuration;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.util.Collections;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -31,6 +34,8 @@ public class BaseTest {
         Configuration.browserCapabilities = capabilities;
         Configuration.startMaximized = true;
 
+        RestAssured.filters(Collections.singletonList(new AllureRestAssured()));
+
         if (System.getProperty("remote.browser.url") != null)
             Configuration.remote = config.webDriverUrl();
 
@@ -40,11 +45,11 @@ public class BaseTest {
 
     @AfterEach
     public void afterEach() {
-//        attachScreenshot("Last screenshot");
-//        attachPageSource();
-//        attachAsText("Browser console logs", getConsoleLogs());
-//        if (System.getProperty("video_storage") != null)
-//            attachVideo();
+        attachScreenshot("Last screenshot");
+        attachPageSource();
+        attachAsText("Browser console logs", getConsoleLogs());
+        if (System.getProperty("video_storage") != null)
+            attachVideo();
         closeWebDriver();
     }
 }
