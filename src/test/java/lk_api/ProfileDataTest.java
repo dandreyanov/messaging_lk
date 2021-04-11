@@ -2,8 +2,10 @@ package lk_api;
 
 import config.BaseTest;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.open;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -13,8 +15,9 @@ public class ProfileDataTest extends BaseTest {
 
     public static String token;
 
-    @BeforeAll
-    static void beforeFunction() {
+    @BeforeEach
+     public void beforeFunction() {
+        open("");
         token = given()
                 .filter(filters().customTemplates())
                 .contentType("application/json;charset=UTF-8")

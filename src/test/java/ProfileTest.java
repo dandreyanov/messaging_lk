@@ -31,6 +31,7 @@ public class ProfileTest extends BaseTest {
 
     @BeforeEach
     public void beforeFunction() {
+        Authorization.authWithAPI();
         open("/my/user/profile/profile");
     }
 

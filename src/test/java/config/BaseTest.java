@@ -39,7 +39,7 @@ public class BaseTest {
         if (System.getProperty("remote.browser.url") != null)
             Configuration.remote = config.webDriverUrl();
 
-        Authorization.authWithAPI();
+
 
     }
 
