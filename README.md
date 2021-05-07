@@ -8,6 +8,18 @@
 - [X] - Попытка сохранить данные без заполненного поля номер телефона
 - [X] - Попытка сохранить данные без заполненного поля подтверждение пароля
 
+## Реализованы проверки API
+- [X] - Авторизация через LK-API
+- [X] - Проверка метода Get profile data
+- [X] - Проверка метода Put profile data
+
+
+## Запуск в Jenkins
+![Jenkins](src/test/resources/files/Jenkins.png)
+
+## Управление тестами в AllureTestOps
+![AllureTO](src/test/resources/files/AllureTO.png)
+
 ## Добавлено видео о прохождении тестов
 ![Video](src/test/resources/files/Video.gif)
 
