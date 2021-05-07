@@ -9,8 +9,7 @@ repositories {
     mavenCentral()
 }
 
-def allureEEVersion = "3.39.4",
-    allureVersion = "2.13.8",
+def allureVersion = "2.13.8",
     selenideVersion = "5.18.0",
     junitVersion = "5.7.0",
     javafakerVersion = "1.0.2",
@@ -21,18 +20,17 @@ def allureEEVersion = "3.39.4",
     jsonValidatorVersion = "4.3.3"
 
 allure {
-    version = "${allureVersion}"
+    version = allureVersion
     autoconfigure = true
     aspectjweaver = true
     useJUnit5 {
-        version = "${allureVersion}"
+        version = allureVersion
     }
 }
 
 dependencies {
     testImplementation (
             "org.aspectj:aspectjweaver:$aspectJVersion",
-    	    "io.qameta.allure:allure-ee-junit-platform:$allureEEVersion",
             "com.codeborne:selenide:$selenideVersion",
             "io.qameta.allure:allure-selenide:$allureVersion",
             "io.qameta.allure:allure-rest-assured:$allureVersion",
@@ -48,6 +46,8 @@ dependencies {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType(Test) {
