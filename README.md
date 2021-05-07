@@ -10,8 +10,8 @@
 
 ## Реализованы проверки API
 - [X] - Авторизация через LK-API
-- [X] - Проверка метода Get profile data
-- [X] - Проверка метода Put profile data
+- [X] - Проверка метода _Get profile data_
+- [X] - Проверка метода _Put profile data_
 
 
 ## Запуск в Jenkins
@@ -25,6 +25,9 @@
 
 ## Добавлен отчёт Allure
 ![Allure](src/test/resources/files/Allure.png)
+
+## Добавлена привязка к Jira
+![Jira](src/test/resources/files/Jira.png)
 
 ## Добавлено уведомление в Telegram
 ![Telegram](src/test/resources/files/Telegram_notify.png)
