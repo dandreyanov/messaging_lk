@@ -8,8 +8,6 @@ public class ReportTemplate {
         private static final ReportTemplate logFilter = new ReportTemplate();
     }
 
-    private ReportTemplate() {}
-
     public static ReportTemplate filters() {
         return InitLogFilter.logFilter;
     }
