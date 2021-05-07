@@ -27,7 +27,7 @@ public class PageHelper {
         $("#profile_timeZone").selectOption(timeZone);
     }
 
-    @Step("Проверяем, что в селекторе ${timeZone} есть текст ${timeZone}")
+    @Step("Проверяем, что в селекторе ${s} есть текст ${text}")
     public static void checkText(String s,String text)  {
         $(s).shouldHave(text(text));
     }
