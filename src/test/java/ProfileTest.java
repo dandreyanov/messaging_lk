@@ -1,6 +1,7 @@
 import com.github.javafaker.Faker;
 import config.Authorization;
 import config.BaseTest;
+import helpers.PageHelper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -10,9 +11,10 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.$;
 
-import static helpers.PageHelper.*;
-
 public class ProfileTest extends BaseTest {
+
+    final PageHelper steps = new PageHelper();
+
     public static final String PROFILE_NAME = "#profile_name";
     public static final String PROFILE_COMPANY = "#profile_company";
     public static final String PROFILE_PHONE = "#profile_phone";
@@ -40,11 +42,11 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Successful save form")
     public void openPersonalDataPage() {
-        setProfileData(PROFILE_NAME, fullName);
-        setProfileData(PROFILE_COMPANY, companyName);
-        setProfileData(PROFILE_PHONE, phoneNumber);
-        setProfileTimeZone(timeZone);
-        clickSave();
+        steps.setProfileData(PROFILE_NAME, fullName);
+        steps.setProfileData(PROFILE_COMPANY, companyName);
+        steps.setProfileData(PROFILE_PHONE, phoneNumber);
+        steps.setProfileTimeZone(timeZone);
+        steps.clickSave();
         $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Личные данные обновлены"));
     }
 
@@ -53,8 +55,8 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form without fullname")
     public void saveWithoutFullname() {
-        setProfileData(PROFILE_NAME, "");
-        clickSave();
+        steps.setProfileData(PROFILE_NAME, "");
+        steps.clickSave();
         $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Ошибка обновления личных данных"));
         $(DIV_ERRORS).shouldHave(text("Значение не должно быть пустым"));
     }
@@ -63,8 +65,8 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form without phone")
     public void saveWithoutPhone() {
-        setProfileData(PROFILE_PHONE, "");
-        clickSave();
+        steps.setProfileData(PROFILE_PHONE, "");
+        steps.clickSave();
         $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Ошибка обновления личных данных"));
         $(DIV_ERRORS).shouldHave(text("Значение не должно быть пустым"));
     }
@@ -73,9 +75,9 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form without password confirmation")
     public void saveWithoutPassConfirm() {
-        setProfileData(USER_PASSWORD_PASSWORD, password);
-        setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, "");
-        clickChange();
+        steps.setProfileData(USER_PASSWORD_PASSWORD, password);
+        steps.setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, "");
+        steps.clickChange();
         $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Ошибка обновления пароля"));
     }
 
@@ -83,9 +85,9 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form with another password confirmation")
     public void saveWithAnotherPassConfirm() {
-        setProfileData(USER_PASSWORD_PASSWORD, password);
-        setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, newPassword);
-        clickChange();
+        steps.setProfileData(USER_PASSWORD_PASSWORD, password);
+        steps.setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, newPassword);
+        steps.clickChange();
         $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Пароли не совпадают, повторите ввод"));
     }
 
