@@ -71,3 +71,15 @@ test {
     useJUnitPlatform()
     systemProperties(System.getProperties())
 }
+
+task ui(type: Test) {
+    useJUnitPlatform {
+        includeTags 'UI'
+    }
+}
+
+task api(type: Test) {
+    useJUnitPlatform {
+        includeTags 'API'
+    }
+}

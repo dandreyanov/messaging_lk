@@ -1,17 +1,15 @@
 package lk_api;
 
 import config.BaseTest;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Selenide.open;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.is;
 import static templates.ReportTemplate.filters;
 
-public class ProfileDataTest extends BaseTest {
+public class ProfileDataApiTest extends BaseTest {
 
     public static String token;
 
@@ -34,6 +32,8 @@ public class ProfileDataTest extends BaseTest {
     }
 
     @Test
+    @Tag("API")
+    @DisplayName("Successful authorization with API")
     public void successAuth() {
         given()
                 .filter(filters().customTemplates())
@@ -51,6 +51,8 @@ public class ProfileDataTest extends BaseTest {
     }
 
     @Test
+    @Tag("API")
+    @DisplayName("Get profile data")
     void getProfileData() {
         given()
                 .filter(filters().customTemplates())
@@ -67,6 +69,8 @@ public class ProfileDataTest extends BaseTest {
     }
 
     @Test
+    @Tag("API")
+    @DisplayName("Put profile data")
     void putProfileData() {
         given()
                 .filter(filters().customTemplates())

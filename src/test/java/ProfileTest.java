@@ -3,6 +3,7 @@ import config.Authorization;
 import config.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
@@ -36,6 +37,7 @@ public class ProfileTest extends BaseTest {
     }
 
     @Test
+    @Tag("UI")
     @DisplayName("Successful save form")
     public void openPersonalDataPage() {
         setProfileData(PROFILE_NAME, fullName);
@@ -48,6 +50,7 @@ public class ProfileTest extends BaseTest {
 
 
     @Test
+    @Tag("UI")
     @DisplayName("Save form without fullname")
     public void saveWithoutFullname() {
         setProfileData(PROFILE_NAME, "");
@@ -57,6 +60,7 @@ public class ProfileTest extends BaseTest {
     }
 
     @Test
+    @Tag("UI")
     @DisplayName("Save form without phone")
     public void saveWithoutPhone() {
         setProfileData(PROFILE_PHONE, "");
@@ -66,6 +70,7 @@ public class ProfileTest extends BaseTest {
     }
 
     @Test
+    @Tag("UI")
     @DisplayName("Save form without password confirmation")
     public void saveWithoutPassConfirm() {
         setProfileData(USER_PASSWORD_PASSWORD, password);
@@ -75,6 +80,7 @@ public class ProfileTest extends BaseTest {
     }
 
     @Test
+    @Tag("UI")
     @DisplayName("Save form with another password confirmation")
     public void saveWithAnotherPassConfirm() {
         setProfileData(USER_PASSWORD_PASSWORD, password);
