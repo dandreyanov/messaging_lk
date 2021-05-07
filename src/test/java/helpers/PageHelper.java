@@ -2,6 +2,7 @@ package helpers;
 
 import io.qameta.allure.Step;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 public class PageHelper {
@@ -24,6 +25,11 @@ public class PageHelper {
     @Step("Выбираем таймзону ${timeZone}")
     public static void setProfileTimeZone(Integer timeZone) {
         $("#profile_timeZone").selectOption(timeZone);
+    }
+
+    @Step("Проверяем, что в селекторе ${timeZone} есть текст ${timeZone}")
+    public static void checkText(String s,String text)  {
+        $(s).shouldHave(text(text));
     }
 
 }

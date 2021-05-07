@@ -47,9 +47,8 @@ public class ProfileTest extends BaseTest {
         steps.setProfileData(PROFILE_PHONE, phoneNumber);
         steps.setProfileTimeZone(timeZone);
         steps.clickSave();
-        $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Личные данные обновлены"));
+        steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Личные данные обновлены");
     }
-
 
     @Test
     @Tag("UI")
@@ -57,8 +56,8 @@ public class ProfileTest extends BaseTest {
     public void saveWithoutFullname() {
         steps.setProfileData(PROFILE_NAME, "");
         steps.clickSave();
-        $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Ошибка обновления личных данных"));
-        $(DIV_ERRORS).shouldHave(text("Значение не должно быть пустым"));
+        steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Ошибка обновления личных данных");
+        steps.checkText(DIV_ERRORS, "Значение не должно быть пустым");
     }
 
     @Test
@@ -67,8 +66,8 @@ public class ProfileTest extends BaseTest {
     public void saveWithoutPhone() {
         steps.setProfileData(PROFILE_PHONE, "");
         steps.clickSave();
-        $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Ошибка обновления личных данных"));
-        $(DIV_ERRORS).shouldHave(text("Значение не должно быть пустым"));
+        steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Ошибка обновления личных данных");
+        steps.checkText(DIV_ERRORS, "Значение не должно быть пустым");
     }
 
     @Test
@@ -78,7 +77,7 @@ public class ProfileTest extends BaseTest {
         steps.setProfileData(USER_PASSWORD_PASSWORD, password);
         steps.setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, "");
         steps.clickChange();
-        $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Ошибка обновления пароля"));
+        steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Ошибка обновления пароля");
     }
 
     @Test
@@ -88,7 +87,7 @@ public class ProfileTest extends BaseTest {
         steps.setProfileData(USER_PASSWORD_PASSWORD, password);
         steps.setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, newPassword);
         steps.clickChange();
-        $(DIV_FLASH_MESSAGE_MESSAGE).shouldHave(text("Пароли не совпадают, повторите ввод"));
+        steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Пароли не совпадают, повторите ввод");
     }
 
 }
