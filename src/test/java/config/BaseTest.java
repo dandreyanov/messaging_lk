@@ -50,9 +50,9 @@ public class BaseTest {
         attachPageSource();
         attachAsText("Browser console logs", getConsoleLogs());
 
-        if (isVideoOn()) attachVideo(sessionId);
-
         closeWebDriver();
+
+        if (isVideoOn()) attachVideo(sessionId);
     }
 }
 
