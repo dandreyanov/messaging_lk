@@ -11,10 +11,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Collections;
 
-import static com.codeborne.selenide.Selenide.*;
-
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
-import static helpers.AttachmentHelper.*;
+import static helpers.AttachmentsHelper.*;
+import static helpers.DriverHelper.*;
 
 public class BaseTest {
 
@@ -40,16 +40,18 @@ public class BaseTest {
             Configuration.remote = config.webDriverUrl();
 
 
-
     }
 
     @AfterEach
     public void afterEach() {
+        String sessionId = getSessionId();
+
         attachScreenshot("Last screenshot");
         attachPageSource();
         attachAsText("Browser console logs", getConsoleLogs());
-        if (System.getProperty("video_storage") != null)
-            attachVideo();
+
+        if (isVideoOn()) attachVideo(sessionId);
+
         closeWebDriver();
     }
 }
