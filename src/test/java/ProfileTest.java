@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -42,9 +41,9 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Successful save form")
     public void openPersonalDataPage() {
-        steps.setProfileData(PROFILE_NAME, fullName);
-        steps.setProfileData(PROFILE_COMPANY, companyName);
-        steps.setProfileData(PROFILE_PHONE, phoneNumber);
+        steps.setData(PROFILE_NAME, fullName);
+        steps.setData(PROFILE_COMPANY, companyName);
+        steps.setData(PROFILE_PHONE, phoneNumber);
         steps.setProfileTimeZone(timeZone);
         steps.clickSave();
         steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Личные данные обновлены");
@@ -54,7 +53,7 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form without fullname")
     public void saveWithoutFullname() {
-        steps.setProfileData(PROFILE_NAME, "");
+        steps.setData(PROFILE_NAME, "");
         steps.clickSave();
         steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Ошибка обновления личных данных");
         steps.checkText(DIV_ERRORS, "Значение не должно быть пустым");
@@ -64,7 +63,7 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form without phone")
     public void saveWithoutPhone() {
-        steps.setProfileData(PROFILE_PHONE, "");
+        steps.setData(PROFILE_PHONE, "");
         steps.clickSave();
         steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Ошибка обновления личных данных");
         steps.checkText(DIV_ERRORS, "Значение не должно быть пустым");
@@ -74,8 +73,8 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form without password confirmation")
     public void saveWithoutPassConfirm() {
-        steps.setProfileData(USER_PASSWORD_PASSWORD, password);
-        steps.setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, "");
+        steps.setData(USER_PASSWORD_PASSWORD, password);
+        steps.setData(USER_PASSWORD_NEW_PASSWORD_AGAIN, "");
         steps.clickChange();
         steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Ошибка обновления пароля");
     }
@@ -84,8 +83,8 @@ public class ProfileTest extends BaseTest {
     @Tag("UI")
     @DisplayName("Save form with another password confirmation")
     public void saveWithAnotherPassConfirm() {
-        steps.setProfileData(USER_PASSWORD_PASSWORD, password);
-        steps.setProfileData(USER_PASSWORD_NEW_PASSWORD_AGAIN, newPassword);
+        steps.setData(USER_PASSWORD_PASSWORD, password);
+        steps.setData(USER_PASSWORD_NEW_PASSWORD_AGAIN, newPassword);
         steps.clickChange();
         steps.checkText(DIV_FLASH_MESSAGE_MESSAGE, "Пароли не совпадают, повторите ввод");
     }

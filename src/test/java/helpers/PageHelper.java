@@ -1,6 +1,7 @@
 package helpers;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -18,7 +19,7 @@ public class PageHelper {
     }
 
     @Step("Вставляем ${userData} в селектор ${s}")
-    public static void setProfileData(String s, String userData) {
+    public static void setData(String s, String userData) {
         $(s).setValue(userData);
     }
 
@@ -32,4 +33,28 @@ public class PageHelper {
         $(s).shouldHave(text(text));
     }
 
+    @Step("Выбираем в селекторе ${s} параметр ${senderAddress}")
+    public void setSender(String s, String senderAddress) {
+        $(By.id(s)).selectOption(senderAddress);
+    }
+
+    @Step("Проверяем, что на странице отображается пример отправляемого сообщения {messageText}")
+    public void checkResultTextMessage(String messageText) {
+        $(By.cssSelector(".row > p")).shouldHave(text(messageText));
+    }
+
+    @Step("Проверяем, что на странице отображается шаблон {template}")
+    public void checkResultTemplate(String template) {
+        $(By.xpath("//span[contains(.,'" + template + "')]")).shouldHave(text(template));
+    }
+
+    @Step("Проверяем, что на странице отображается отправитель {sender}")
+    public void checkResultSender(String sender) {
+        $(By.xpath("//span[contains(.,'" + sender + "')]")).shouldHave(text(sender));
+    }
+
+    @Step("Проверяем, что на странице отображается количество контактов {contacts}")
+    public void checkResultContacts(String contacts) {
+        $(By.cssSelector(".row:nth-child(2) > span:nth-child(5)")).shouldHave(text(contacts));
+    }
 }
