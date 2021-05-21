@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class SmsHelper {
 
-    @Step("Нажимаем сохранить")
+    @Step("Нажимаем далее")
     public static void clickNext() {
         $("button.btn._green").click();
     }
