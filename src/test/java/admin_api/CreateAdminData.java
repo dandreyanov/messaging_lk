@@ -68,7 +68,7 @@ public class CreateAdminData extends BaseTest {
 
         partnerIdStr = partnerId.toString();
         partnerIdStr = partnerIdStr.substring(1, partnerIdStr.length() - 1);
-        System.out.println(partnerIdStr);
+        System.out.println("partnerIdStr = " + partnerIdStr);
 
         return partnerIdStr;
     }
@@ -94,23 +94,23 @@ public class CreateAdminData extends BaseTest {
 
     }
 
-    public String createServiceProvides() {
+    public String createServiceProvides(String sms_provider_name) {
         given()
                 .contentType("application/json;charset=UTF-8")
                 .header("Authorization", tokenAdmin)
                 .body("{ \n" +
-                        "        \"name\" : \"YOTASMS1\",\n" +
+                        "        \"name\" : \" " + sms_provider_name + "\",\n" +
                         "        \"transport_ids\" : [1],\n" +
                         "        \"parameters\" : [\n" +
                         "\t\t{\n" +
                         "        \"protocol_parameter_id\": 1,\n" +
                         "        \"protocol_id\" : 1,\n" +
-                        "        \"value\" : \"logicasmpp3\"\n" +
+                        "        \"value\" : \"logicasmpp123\"\n" +
                         "},\n" +
                         "{\n" +
                         "        \"protocol_parameter_id\": 2,\n" +
                         "        \"protocol_id\" : 1,\n" +
-                        "        \"value\" : \"reservesms2\"\n" +
+                        "        \"value\" : \"reservesms123\"\n" +
                         "}\n" +
                         "],\n" +
                         "\"status\" : 1\n" +
@@ -118,29 +118,29 @@ public class CreateAdminData extends BaseTest {
                 .when()
                 .post("http://192.168.128.215/acapi/service_providers")
                 .then()
-                .log().everything()
+                .log().all()
                 .statusCode(200)
                 .body("status", is("Success"));
 
-//        ArrayList<String> providerId;
-//        providerId = given()
-//                .contentType("application/json;charset=UTF-8")
-//                .header("Authorization", tokenAdmin)
-//                .param("name", clientName)
-//                .when()
-//                .get("http://192.168.128.215/acapi/service_providers/")
-//                .then()
-//                .extract().path("partners.id");
-//
-//        partnerIdStr = providerId.toString();
-//        partnerIdStr = partnerIdStr.substring(1, partnerIdStr.length() - 1);
-//        System.out.println(partnerIdStr);
+        ArrayList<String> providerId;
+        providerId = given()
+                .contentType("application/json;charset=UTF-8")
+                .header("Authorization", tokenAdmin)
+                .param("name", sms_provider_name)
+                .when()
+                .get("http://192.168.128.215/acapi/service_providers/")
+                .then()
+                .extract().path("service_providers.id");
+
+        providerIdStr = providerId.toString();
+        providerIdStr = providerIdStr.substring(1, providerIdStr.length() - 1);
+        System.out.println(providerIdStr);
 
         return providerIdStr;
 
     }
 
-    public void createSMSTariffZoneGroupsPartner(String partner_id) {
+    public void createSMSTariffZoneGroupsPartner(String service_provider_id) {
         given()
                 .contentType("application/json;charset=UTF-8")
                 .header("Authorization", tokenAdmin)
@@ -153,9 +153,9 @@ public class CreateAdminData extends BaseTest {
                         "\"status\" : 1\n" +
                         "} ")
                 .when()
-                .post("http://192.168.128.215/acapi/sms/service_providers/"+partner_id+"/tariff_zones")
+                .post("http://192.168.128.215/acapi/sms/service_providers/" + service_provider_id + "/tariff_zones")
                 .then()
-                .log().everything()
+                .log().all()
                 .statusCode(200);
     }
 }

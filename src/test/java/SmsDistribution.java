@@ -26,11 +26,13 @@ public class SmsDistribution extends BaseTest {
     public static final String TEXT_SMS = "#sms_message";
     public static final String SMS_RECIPIENTS = "#sms_recipients";
 
-    String  TEXT = faker.lorem().characters(),
+    String TEXT = faker.lorem().characters(),
             CLIENT_NAME = faker.name().firstName(),
+            SMS_PROVIDER_NAME = "SMS Provider " + faker.name().username(),
             RECIPIENT = "79" + faker.phoneNumber().subscriberNumber(9),
             SENDER_ADDRESS = "79" + faker.phoneNumber().subscriberNumber(9),
-            PARTNER_ID;
+            PARTNER_ID,
+            SERVICE_PROVIDER_ID;
 
     final CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class, System.getProperties());
 
@@ -77,9 +79,10 @@ public class SmsDistribution extends BaseTest {
         //Генерируем тестовые данные
         PARTNER_ID = adminData.createClient(CLIENT_NAME);
         adminData.createSender(SENDER_ADDRESS, PARTNER_ID);
-        adminData.createServiceProvides();
+        SERVICE_PROVIDER_ID = adminData.createServiceProvides(SMS_PROVIDER_NAME);
 //        createAdminData.createSMSTariffZoneGroupsProvider();
-        adminData.createSMSTariffZoneGroupsPartner(PARTNER_ID);
+        System.out.println("Создаем зону для SERVICE_PROVIDER_ID " + SERVICE_PROVIDER_ID);
+        adminData.createSMSTariffZoneGroupsPartner(SERVICE_PROVIDER_ID);
         stepsSMS.clickNext();
         stepsUser.setSender(SMS_SENDER, SENDER_ADDRESS);
         stepsUser.setData(TEXT_SMS, TEXT);
