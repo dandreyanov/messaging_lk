@@ -49,7 +49,7 @@ public class CreateAdminData extends BaseTest {
                         "        \"status\" : 1\n" +
                         "}             ")
                 .when()
-                .post("http://192.168.128.215/acapi/partners/")
+                .post("acapi/partners/")
                 .then()
                 .log().everything()
                 .statusCode(200)
@@ -61,7 +61,7 @@ public class CreateAdminData extends BaseTest {
                 .header("Authorization", tokenAdmin)
                 .param("name", clientName)
                 .when()
-                .get("http://192.168.128.215/acapi/partners/")
+                .get("acapi/partners/")
                 .then()
                 .extract().path("partners.id");
         //Преобразуем partnerId в строку, убираем скобки
@@ -80,14 +80,14 @@ public class CreateAdminData extends BaseTest {
                 .contentType("application/json;charset=UTF-8")
                 .header("Authorization", tokenAdmin)
                 .body("{\n" +
-                        "\t\"partner_id\" : "+partnerIdStr+",\n" +
+                        "\t\"partner_id\" : " + partnerIdStr + ",\n" +
                         "\t\"transport_id\" : 1,\n" +
-                        "\t\"originator\" : \""+senderAddress+"\",\n" +
+                        "\t\"originator\" : \"" + senderAddress + "\",\n" +
                         "\t\"status_id\" :  1,\n" +
                         "\t\"description\" : \"\"\n" +
                         "}")
                 .when()
-                .post("http://192.168.128.215/acapi/originators/")
+                .post("acapi/originators/")
                 .then()
                 .log().everything()
                 .statusCode(200);
@@ -123,7 +123,7 @@ public class CreateAdminData extends BaseTest {
                         "    \"sms_protocol_id\": 1\n" +
                         "}")
                 .when()
-                .post("http://192.168.128.215/acapi/service_providers")
+                .post("acapi/service_providers")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -135,7 +135,7 @@ public class CreateAdminData extends BaseTest {
                 .header("Authorization", tokenAdmin)
                 .param("name", smsProviderName)
                 .when()
-                .get("http://192.168.128.215/acapi/service_providers/")
+                .get("acapi/service_providers/")
                 .then()
                 .extract().path("service_providers.id");
 
@@ -160,7 +160,7 @@ public class CreateAdminData extends BaseTest {
                         "\"status\" : 1\n" +
                         "} ")
                 .when()
-                .post("http://192.168.128.215/acapi/sms/service_providers/" + serviceProviderId + "/tariff_zones")
+                .post("acapi/sms/service_providers/" + serviceProviderId + "/tariff_zones")
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -175,7 +175,7 @@ public class CreateAdminData extends BaseTest {
                         "\t\"routing\":\"MSISDN\"\n" +
                         "}")
                 .when()
-                .post("http://192.168.128.215/acapi/sms/service_providers/" + serviceProviderId + "/tariff_zone_groups")
+                .post("acapi/sms/service_providers/" + serviceProviderId + "/tariff_zone_groups")
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -191,7 +191,7 @@ public class CreateAdminData extends BaseTest {
                         "    \"is_all_operators_allowed\": true\n" +
                         "}")
                 .when()
-                .post("http://192.168.128.215/acapi/sms/partners/" + partnerId + "/tariff_zone_groups")
+                .post("acapi/sms/partners/" + partnerId + "/tariff_zone_groups")
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -210,7 +210,7 @@ public class CreateAdminData extends BaseTest {
                         "\"status\" : 1\n" +
                         "} ")
                 .when()
-                .post("http://192.168.128.215/acapi/sms/partners/" + partnerId + "/tariff_zones")
+                .post("acapi/sms/partners/" + partnerId + "/tariff_zones")
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -231,7 +231,7 @@ public class CreateAdminData extends BaseTest {
                         "\t\"status\" : 1\n" +
                         "}\n")
                 .when()
-                .post("http://192.168.128.215/acapi/partner_users/")
+                .post("acapi/partner_users/")
                 .then()
                 .log().all()
                 .statusCode(200);

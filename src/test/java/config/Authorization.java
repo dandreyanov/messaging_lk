@@ -1,6 +1,5 @@
 package config;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 
@@ -14,7 +13,6 @@ import static templates.ReportTemplate.filters;
 public class Authorization extends config.BaseTest {
     @Test
     public static void authWithAPI(String PARTNER_EMAIL, String PARTNER_PASSWORD) {
-        final CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class, System.getProperties());
         Map<String, String> cookiesMap =
                 given()
                         .filter(filters().customTemplates())
@@ -28,9 +26,8 @@ public class Authorization extends config.BaseTest {
                         .log().body()
                         .extract().cookies();
 
-        open("/bundles/app/images/logotype.png");
+        open("bundles/app/images/logotype.png");
         getWebDriver().manage().addCookie(new Cookie("PHPSESSID", cookiesMap.get("PHPSESSID")));
-        open("");
 
     }
 
