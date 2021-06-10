@@ -28,9 +28,12 @@ public class SmsDistribution extends BaseTest {
 
     String TEXT = faker.lorem().characters(),
             CLIENT_NAME = faker.name().firstName(),
-            SMS_PROVIDER_NAME = "SMS Provider " + faker.name().username(),
+            SMS_PROVIDER_NAME = "SMS Provider " + faker.name().lastName(),
             RECIPIENT = "79" + faker.phoneNumber().subscriberNumber(9),
             SENDER_ADDRESS = "79" + faker.phoneNumber().subscriberNumber(9),
+            PARTNER_EMAIL = faker.internet().emailAddress(),
+            PARTNER_LK_NAME = faker.name().fullName(),
+            PARTNER_PASSWORD = faker.internet().password(6, 50),
             PARTNER_ID,
             SERVICE_PROVIDER_ID;
 
@@ -39,24 +42,6 @@ public class SmsDistribution extends BaseTest {
 
     @BeforeEach
     public void beforeFunction() {
-        Authorization.authWithAPI();
-
-        //Получаем токен для дальнейшей авторизации по LK API
-        System.out.println("LK api auth result: \n");
-        tokenLk = given()
-                .filter(filters().customTemplates())
-                .contentType("application/json;charset=UTF-8")
-                .body("{\n" +
-                        "  \"username\" : \"test@example.com\",\n" +
-                        "   \"password\" : \"qwerty123\"\n" +
-                        "}")
-                .when()
-                .post("/lk-api/user/auth")
-                .then()
-                .statusCode(200)
-                .log().body()
-                .extract().path("token");
-
         //Получаем токен для дальнейшей авторизации по Admin API
         System.out.println("Admin api auth result: \n");
         tokenAdmin = given()
@@ -69,20 +54,45 @@ public class SmsDistribution extends BaseTest {
                 .statusCode(200)
                 .log().body()
                 .extract().path("token");
-        open("/my/distribution/sms/new");
+
+        //Генерируем тестовые данные
+        PARTNER_ID = adminData.createClient(CLIENT_NAME);
+        adminData.createSender(SENDER_ADDRESS, PARTNER_ID);
+        SERVICE_PROVIDER_ID = adminData.createServiceProvides(SMS_PROVIDER_NAME);
+        //Создаем настройки группы поставщика услуг
+        adminData.createSMSTariffZoneGroupsProvider(SERVICE_PROVIDER_ID);
+        System.out.println("Создаем зону для SERVICE_PROVIDER_ID " + SERVICE_PROVIDER_ID);
+        adminData.createSMSTariffZoneProvider(SERVICE_PROVIDER_ID, CLIENT_NAME);
+        System.out.println("Создаем зону для PARTNER_ID " + PARTNER_ID);
+        adminData.createSMSTariffZoneGroupsPartner(PARTNER_ID);
+        adminData.createSMSTariffZonePartner(PARTNER_ID, CLIENT_NAME);
+        adminData.createPartnerUsers(PARTNER_EMAIL, CLIENT_NAME, PARTNER_LK_NAME, PARTNER_PASSWORD);
+        Authorization.authWithAPI(PARTNER_EMAIL, PARTNER_PASSWORD);
+
+        //Получаем токен для дальнейшей авторизации по LK API
+        System.out.println("LK api auth result: \n");
+        tokenLk = given()
+                .filter(filters().customTemplates())
+                .contentType("application/json;charset=UTF-8")
+                .body("{\n" +
+                        "  \"username\" : \"" + PARTNER_EMAIL + "\",\n" +
+                        "   \"password\" : \"" + PARTNER_PASSWORD + "\"\n" +
+                        "}")
+                .when()
+                .post("/lk-api/user/auth")
+                .then()
+                .statusCode(200)
+                .log().body()
+                .extract().path("token");
+
+        Authorization.authWithAPI(PARTNER_EMAIL, PARTNER_PASSWORD);
+        open("my/distribution/sms/new");
     }
 
     @Test
     @Tag("UI") @Tag("SMS")
     @DisplayName("Sms distribution with only required parameters")
     public void smsDistributionOnlyRequired() {
-        //Генерируем тестовые данные
-        PARTNER_ID = adminData.createClient(CLIENT_NAME);
-        adminData.createSender(SENDER_ADDRESS, PARTNER_ID);
-        SERVICE_PROVIDER_ID = adminData.createServiceProvides(SMS_PROVIDER_NAME);
-//        createAdminData.createSMSTariffZoneGroupsProvider();
-        System.out.println("Создаем зону для SERVICE_PROVIDER_ID " + SERVICE_PROVIDER_ID);
-        adminData.createSMSTariffZoneGroupsPartner(SERVICE_PROVIDER_ID);
         stepsSMS.clickNext();
         stepsUser.setSender(SMS_SENDER, SENDER_ADDRESS);
         stepsUser.setData(TEXT_SMS, TEXT);

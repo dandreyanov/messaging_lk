@@ -94,26 +94,33 @@ public class CreateAdminData extends BaseTest {
 
     }
 
-    public String createServiceProvides(String sms_provider_name) {
+    public String createServiceProvides(String smsProviderName) {
         given()
                 .contentType("application/json;charset=UTF-8")
                 .header("Authorization", tokenAdmin)
-                .body("{ \n" +
-                        "        \"name\" : \" " + sms_provider_name + "\",\n" +
-                        "        \"transport_ids\" : [1],\n" +
-                        "        \"parameters\" : [\n" +
-                        "\t\t{\n" +
-                        "        \"protocol_parameter_id\": 1,\n" +
-                        "        \"protocol_id\" : 1,\n" +
-                        "        \"value\" : \"logicasmpp123\"\n" +
-                        "},\n" +
-                        "{\n" +
-                        "        \"protocol_parameter_id\": 2,\n" +
-                        "        \"protocol_id\" : 1,\n" +
-                        "        \"value\" : \"reservesms123\"\n" +
-                        "}\n" +
-                        "],\n" +
-                        "\"status\" : 1\n" +
+                .body("{\n" +
+                        "    \"name\": \"" + smsProviderName + "\",\n" +
+                        "    \"status\": 1,\n" +
+                        "    \"parameters\": [\n" +
+                        "        {\n" +
+                        "            \"name\": \"MAIN_GATEWAY\",\n" +
+                        "            \"protocol_parameter_id\": 1,\n" +
+                        "            \"protocol_id\": 1,\n" +
+                        "            \"protocol_name\": \"SMPP\",\n" +
+                        "            \"value\": null\n" +
+                        "        },\n" +
+                        "        {\n" +
+                        "            \"name\": \"RESERVE_GATEWAY\",\n" +
+                        "            \"protocol_parameter_id\": 2,\n" +
+                        "            \"protocol_id\": 1,\n" +
+                        "            \"protocol_name\": \"SMPP\",\n" +
+                        "            \"value\": null\n" +
+                        "        }\n" +
+                        "    ],\n" +
+                        "    \"transport_ids\": [\n" +
+                        "        1\n" +
+                        "    ],\n" +
+                        "    \"sms_protocol_id\": 1\n" +
                         "}")
                 .when()
                 .post("http://192.168.128.215/acapi/service_providers")
@@ -126,7 +133,7 @@ public class CreateAdminData extends BaseTest {
         providerId = given()
                 .contentType("application/json;charset=UTF-8")
                 .header("Authorization", tokenAdmin)
-                .param("name", sms_provider_name)
+                .param("name", smsProviderName)
                 .when()
                 .get("http://192.168.128.215/acapi/service_providers/")
                 .then()
@@ -134,18 +141,18 @@ public class CreateAdminData extends BaseTest {
 
         providerIdStr = providerId.toString();
         providerIdStr = providerIdStr.substring(1, providerIdStr.length() - 1);
-        System.out.println(providerIdStr);
+        System.out.println("providerIdStr " + providerIdStr);
 
         return providerIdStr;
 
     }
 
-    public void createSMSTariffZoneGroupsPartner(String service_provider_id) {
+    public void createSMSTariffZoneProvider(String serviceProviderId, String clientName) {
         given()
                 .contentType("application/json;charset=UTF-8")
                 .header("Authorization", tokenAdmin)
                 .body("{\n" +
-                        "\"name\" : \"TEST5\",\n" +
+                        "\"name\" : \"Provider tariff zone for " + clientName + "\",\n" +
                         "\"msisdn\" :\"7\",\n" +
                         "\"mcc\" : \"250\",\n" +
                         "\"mnc\" : \"01\",\n" +
@@ -153,7 +160,78 @@ public class CreateAdminData extends BaseTest {
                         "\"status\" : 1\n" +
                         "} ")
                 .when()
-                .post("http://192.168.128.215/acapi/sms/service_providers/" + service_provider_id + "/tariff_zones")
+                .post("http://192.168.128.215/acapi/sms/service_providers/" + serviceProviderId + "/tariff_zones")
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
+
+    public void createSMSTariffZoneGroupsProvider(String serviceProviderId) {
+        given()
+                .contentType("application/json;charset=UTF-8")
+                .header("Authorization", tokenAdmin)
+                .body("{\n" +
+                        "\t\"charging\":\"DELIVERY\",\n" +
+                        "\t\"routing\":\"MSISDN\"\n" +
+                        "}")
+                .when()
+                .post("http://192.168.128.215/acapi/sms/service_providers/" + serviceProviderId + "/tariff_zone_groups")
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
+
+    public void createSMSTariffZoneGroupsPartner(String partnerId) {
+        given()
+                .contentType("application/json;charset=UTF-8")
+                .header("Authorization", tokenAdmin)
+                .body("{\n" +
+                        "    \"charging\": \"SENDING\",\n" +
+                        "    \"routing\": \"MCC/MNC\",\n" +
+                        "    \"is_all_operators_allowed\": true\n" +
+                        "}")
+                .when()
+                .post("http://192.168.128.215/acapi/sms/partners/" + partnerId + "/tariff_zone_groups")
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
+
+    public void createSMSTariffZonePartner(String partnerId, String clientName) {
+        given()
+                .contentType("application/json;charset=UTF-8")
+                .header("Authorization", tokenAdmin)
+                .body("{\n" +
+                        "\"name\" : \"Partner tariff zone for " + clientName + "\",\n" +
+                        "\"msisdn\" :\"7\",\n" +
+                        "\"mcc\" : \"250\",\n" +
+                        "\"mnc\" : \"01\",\n" +
+                        "\"price\" : \"01.23\",\n" +
+                        "\"status\" : 1\n" +
+                        "} ")
+                .when()
+                .post("http://192.168.128.215/acapi/sms/partners/" + partnerId + "/tariff_zones")
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
+
+    public void createPartnerUsers(String partnerEmail, String clientName, String partnerLkName, String partnerPassword) {
+        given()
+                .contentType("application/json;charset=UTF-8")
+                .header("Authorization", tokenAdmin)
+                .body("{\n" +
+                        "\t\"name\" : \"" + partnerLkName + "\",\n" +
+                        "\t\"email\" : \"" + partnerEmail + "\",\n" +
+                        "\t\"partner\" : \"" + clientName + "\",\n" +
+                        "\t\"password\" : \"" + partnerPassword + "\",\n" +
+                        "\t\"timezone_id\" : 4,\n" +
+                        "\t\"show_messages_text\" : 0,\n" +
+                        "\t\"is_check_pass\" : 0,\n" +
+                        "\t\"status\" : 1\n" +
+                        "}\n")
+                .when()
+                .post("http://192.168.128.215/acapi/partner_users/")
                 .then()
                 .log().all()
                 .statusCode(200);

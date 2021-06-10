@@ -13,16 +13,17 @@ import java.util.Collections;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
-import static helpers.AttachmentsHelper.*;
-import static helpers.DriverHelper.*;
+import static helpers.DriverHelper.getSessionId;
 
 public class BaseTest {
 
+    public static String tokenLk,
+            tokenAdmin;
 
     @BeforeAll
     static void setup() {
-        RestAssured.baseURI = "http://demo.wsoft.ru";
-        Configuration.baseUrl = "http://demo.wsoft.ru";
+        RestAssured.baseURI = "http://192.168.128.215/";
+        Configuration.baseUrl = "http://192.168.128.215/";
         final EnvironmentConfig config = ConfigFactory.create(EnvironmentConfig.class, System.getProperties());
         addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
         Configuration.browser = config.browser();
@@ -46,13 +47,14 @@ public class BaseTest {
     public void afterEach() {
         String sessionId = getSessionId();
 
-        attachScreenshot("Last screenshot");
-        attachPageSource();
-        attachAsText("Browser console logs", getConsoleLogs());
+        /*Убрать после настройки селеноида
+//        attachScreenshot("Last screenshot");
+//        attachPageSource();
+//        attachAsText("Browser console logs", getConsoleLogs());
+//        if (isVideoOn()) attachVideo(sessionId);*/
 
         closeWebDriver();
 
-        if (isVideoOn()) attachVideo(sessionId);
     }
 }
 

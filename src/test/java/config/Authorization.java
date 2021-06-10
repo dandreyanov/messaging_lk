@@ -13,14 +13,14 @@ import static templates.ReportTemplate.filters;
 
 public class Authorization extends config.BaseTest {
     @Test
-    public static void authWithAPI() {
+    public static void authWithAPI(String PARTNER_EMAIL, String PARTNER_PASSWORD) {
         final CredentialsConfig config = ConfigFactory.create(CredentialsConfig.class, System.getProperties());
         Map<String, String> cookiesMap =
                 given()
                         .filter(filters().customTemplates())
                         .contentType("application/x-www-form-urlencoded")
-                        .formParam("_username", config.username())
-                        .formParam("_password", config.password())
+                        .formParam("_username", PARTNER_EMAIL)
+                        .formParam("_password", PARTNER_PASSWORD)
                         .when()
                         .post("/my/auth")
                         .then()

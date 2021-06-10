@@ -2,13 +2,12 @@ import com.github.javafaker.Faker;
 import config.Authorization;
 import config.BaseTest;
 import helpers.PageHelper;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.$;
 
 public class ProfileTest extends BaseTest {
 
@@ -28,12 +27,14 @@ public class ProfileTest extends BaseTest {
             companyName = faker.company().name(),
             phoneNumber = faker.phoneNumber().subscriberNumber(11),
             password = faker.internet().password(5, 20),
+            PARTNER_EMAIL = faker.internet().emailAddress(),
+            PARTNER_PASSWORD = faker.internet().password(6, 50),
             newPassword = faker.internet().password(5, 20);
     Integer timeZone = faker.number().numberBetween(1, 24);
 
     @BeforeEach
     public void beforeFunction() {
-        Authorization.authWithAPI();
+        Authorization.authWithAPI(PARTNER_EMAIL, PARTNER_PASSWORD);
         open("/my/user/profile/profile");
     }
 
